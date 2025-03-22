@@ -1,119 +1,118 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>CookCloud MyPage</title>
-    <link rel="stylesheet" th:href="@{/css/mypage.css}">
-    <script src="/js/mypage.js" defer></script>
+<title>CookCloud MyPage</title>
+<link rel="stylesheet" th:href="@{/css/mypage.css}">
+<script src="/js/mypage.js" defer></script>
 </head>
 <body>
-    <nav>
-        <a href="/">홈</a>
-        <a href="/mypage">마이페이지</a>
-        <a href="/logout" th:if="${#authorization.expr('isAuthenticated()')}">로그아웃</a>
-        <a href="/login" th:if="${#authorization.expr('!isAuthenticated()')}">로그인</a>
-    </nav>
+	<nav>
+		<a href="/">홈</a> <a href="/mypage">마이페이지</a> <a href="/logout"
+			th:if="${#authorization.expr('isAuthenticated()')}">로그아웃</a> <a
+			href="/login" th:if="${#authorization.expr('!isAuthenticated()')}">로그인</a>
+	</nav>
 
-    <!-- 프로필 정보 -->
-    <div class="profile-header">
-        <h2 th:text="${member.memNickname}"></h2>
+	<!-- 프로필 정보 -->
+	<div class="profile-header">
+		<h2 th:text="${member.memNickname}"></h2>
 
-        <div class="profile-stats">
-            <div>
-                <span th:text="${#lists.size(myRecipes)}"></span>
-                <p>게시물</p>
-                <button class="tab-button" data-target="my-recipes">레시피 보기</button>
-            </div>
-            <div>
-                <span th:text="${#lists.size(followers)}"></span>
-                <p>팔로워</p>
-                <button class="tab-button" data-target="followers">팔로워 보기</button>
-            </div>
-            <div>
-                <span th:text="${#lists.size(followings)}"></span>
-                <p>팔로잉</p>
-                <button class="tab-button" data-target="followings">팔로잉 보기</button>
-            </div>
-        </div>
-    </div>
+		<div class="profile-stats">
+			<div>
+				<span th:text="${#lists.size(myRecipes)}"></span>
+				<p><button class="tab-button" data-target="my-recipes">레시피</button></p>
+			</div>
+			<div>
+				<span th:text="${#lists.size(followers)}"></span>
+				<p><button class="tab-button" data-target="followers">팔로워</button></p>
+			</div>
+			<div>
+				<span th:text="${#lists.size(followings)}"></span>
+				<p><button class="tab-button" data-target="followings">팔로잉</button></p>
+			</div>
+		</div>
+	</div>
 
-    <!-- 기능 버튼 -->
-    <div class="nav-tabs">
-        <button class="tab-button" data-target="liked-recipes">좋아요한 레시피</button>
-        <button class="tab-button" data-target="my-reviews">내가 작성한 리뷰</button>
-        <button class="tab-button" data-target="messages">메시지</button>
-    </div>
+	<div class="tabs">
+		<button class="tab-button" data-target="liked-recipes">좋아요</button>
+		<button class="tab-button" data-target="my-reviews">작성한리뷰</button>
+		<button class="tab-button" data-target="messages">메시지</button>
+	</div>
 
-    <!-- 컨텐츠 영역 -->
-    <div class="content-section">
-        <section id="my-recipes" class="content-tab active"> <!-- 기본 활성화 -->
-            <h3>내 레시피</h3>
-            <div class="recipe-grid">
-                <div class="recipe-card" th:each="recipe : ${myRecipes}">
-                    <a th:href="@{'/recipe/' + ${recipe.id}}">
-                        <img th:src="@{${recipe.imageUrl}}" alt="레시피 이미지">
-                        <p th:text="${recipe.recipeTitle}"></p>
-                    </a>
-                </div>
-            </div>
-        </section>
 
-        <section id="followings" class="content-tab">
-            <h3>내가 구독한 사용자</h3>
-            <div class="user-list">
-                <div class="user-card" th:each="user : ${followings}">
-                    <a th:href="@{'/user/' + ${user.memId} + '/recipes'}">
-                        <p th:text="${user.memNickname}"></p>
-                    </a>
-                </div>
-            </div>
-        </section>
+	<!-- 컨텐츠 영역 -->
+	<div class="content-section">
+		<section id="my-recipes" class="content-tab active">
+			<!-- 기본 활성화 -->
+			<h3>나의 레시피</h3>
+			<div class="recipe-grid">
+				<div class="recipe-card" th:each="recipe : ${myRecipes}">
+					<a th:href="@{'/recipe/' + ${recipe.id}}"> <img
+						th:src="@{${recipe.imageUrl}}" alt="레시피 이미지">
+						<p th:text="${recipe.recipeTitle}"></p>
+					</a>
+				</div>
+			</div>
+		</section>
 
-        <section id="followers" class="content-tab">
-            <h3>나를 구독중인 사용자</h3>
-            <div class="user-list">
-                <div class="user-card" th:each="user : ${followers}">
-                    <a th:href="@{'/user/' + ${user.memId} + '/recipes'}">
-                        <p th:text="${user.memNickname}"></p>
-                    </a>
-                </div>
-            </div>
-        </section>
+		<section id="followings" class="content-tab">
+			<h3>Folloing</h3>
+			<div class="user-list">
+				<div class="user-card" th:each="user : ${followings}">
+					<a th:href="@{'/user/' + ${user.memId} + '/recipes'}">
+						<p th:text="${user.memNickname}"></p>
+					</a>
+				</div>
+			</div>
+		</section>
 
-        <section id="liked-recipes" class="content-tab">
-            <h3>좋아요한 레시피</h3>
-            <div class="recipe-grid">
-                <div class="recipe-card" th:each="recipe : ${likedRecipes}">
-                    <a th:href="@{'/recipe/' + ${recipe.id}}">
-                        <img th:src="@{${recipe.imageUrl}}" alt="레시피 이미지">
-                        <p th:text="${recipe.recipeTitle}"></p>
-                    </a>
-                </div>
-            </div>
-        </section>
+		<section id="followers" class="content-tab">
+			<h3>Follow</h3>
+			<div class="user-list">
+				<div class="user-card" th:each="user : ${followers}">
+					<a th:href="@{'/user/' + ${user.memId} + '/recipes'}">
+						<p th:text="${user.memNickname}"></p>
+					</a>
+				</div>
+			</div>
+		</section>
 
-        <section id="my-reviews" class="content-tab">
-            <h3>내가 작성한 리뷰</h3>
-            <div class="review-list">
-                <div class="review-item" th:each="review : ${myReviews}">
-                    <a th:href="@{'/recipe/' + ${review.recipe.id}}">
-                        <h4 th:text="${review.recipe.recipeTitle}"></h4>
-                        <p th:text="${review.recipeContent}"></p>
-                    </a>
-                </div>
-            </div>
-        </section>
+		<section id="liked-recipes" class="content-tab">
+			<h3>좋아요 레시피</h3>
+			<div class="recipe-grid">
+				<div class="recipe-card" th:each="recipe : ${likedRecipes}">
+					<a th:href="@{'/recipe/' + ${recipe.id}}"> <img
+						th:src="@{${recipe.imageUrl}}" alt="레시피 이미지">
+						<p th:text="${recipe.recipeTitle}"></p>
+					</a>
+				</div>
+			</div>
+		</section>
 
-        <section id="messages" class="content-tab">
-            <h3>메시지</h3>
-            <ul>
-                <li th:each="message : ${messages}">
-                    <span th:text="${message.messageContent}"></span>
-                    <button type="button" th:onclick="'markMessageRead(' + ${message.messageId} + ')'">읽음</button>
-                    <button type="button" th:onclick="'deleteMessage(' + ${message.messageId} + ')'">삭제</button>
-                </li>
-            </ul>
-        </section>
-    </div>
+		<section id="my-reviews" class="content-tab">
+			<h3>나의 리뷰</h3>
+			<div class="review-list">
+				<div class="review-item" th:each="review : ${myReviews}">
+					<a th:href="@{'/recipe/' + ${review.recipe.id}}">
+						<h4 th:text="${review.recipe.recipeTitle}"></h4>
+						<p th:text="${review.recipeContent}"></p>
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section id="messages" class="content-tab">
+			<h3>메시지</h3>
+			<ul>
+				<li th:each="message : ${messages}"><span
+					th:text="${message.messageContent}"></span>
+					<button type="button"
+						th:onclick="'markMessageRead(' + ${message.messageId} + ')'">읽음</button>
+					<button type="button"
+						th:onclick="'deleteMessage(' + ${message.messageId} + ')'">삭제</button>
+				</li>
+			</ul>
+		</section>
+	</div>
 </body>
 </html>
