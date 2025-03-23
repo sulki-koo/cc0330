@@ -16,7 +16,7 @@
 	<!-- 프로필 정보 -->
 	<div class="profile-header">
 		<h2 th:text="${member.memNickname}"></h2>
-
+		<input type="hidden" id="memId" th:value="${session.memId}">
 		<div class="profile-stats">
 			<div>
 				<span th:text="${#lists.size(myRecipes)}"></span>
@@ -37,6 +37,7 @@
 		<button class="tab-button" data-target="liked-recipes">좋아요</button>
 		<button class="tab-button" data-target="my-reviews">작성한리뷰</button>
 		<button class="tab-button" data-target="messages">메시지</button>
+		<button class="tab-button" data-target="member-info">회원정보수정</button>
 	</div>
 
 
@@ -47,9 +48,13 @@
 			<h3>나의 레시피</h3>
 			<div class="recipe-grid">
 				<div class="recipe-card" th:each="recipe : ${myRecipes}">
-					<a th:href="@{'/recipe/' + ${recipe.id}}"> <img
-						th:src="@{${recipe.imageUrl}}" alt="레시피 이미지">
-						<p th:text="${recipe.recipeTitle}"></p>
+					<a th:href="@{'/recipe/' + ${recipe.recipeId}}"> <img th:src="@{${recipe.imageUrl}}" alt="레시피 이미지">
+						<h4>
+		                    <!-- 레시피 제목 클릭 시 해당 레시피 상세 페이지로 이동 -->
+		                    <a th:href="@{'/recipe/' + ${recipe.recipeId}}" th:text="${recipe.recipeTitle}">레시피 제목</a>
+		                </h4>
+		                <p th:text="${#temporals.format(recipe.recipeInsertAt, 'yyyy-MM-dd HH:mm')}">작성일</p>
+		                <p>조회수: <span th:text="${recipe.recipeViewCount}">조회수</span></p>
 					</a>
 				</div>
 			</div>
@@ -60,7 +65,11 @@
 			<div class="user-list">
 				<div class="user-card" th:each="user : ${followings}">
 					<a th:href="@{'/user/' + ${user.memId} + '/recipes'}">
-						<p th:text="${user.memNickname}"></p>
+						 <p>
+				            팔로우한 사람 수: <span th:text="${follows.followingCount}">팔로잉 수</span>
+				            <!-- 팔로잉 목록을 클릭하면 팔로잉한 사람들의 목록을 볼 수 있고, 각 팔로잉된 사용자의 마이페이지로 이동 -->
+				            <a th:href="@{/mypage/following/{memId}(memId=${user.memNickname})}">팔로잉 목록</a>
+				        </p>
 					</a>
 				</div>
 			</div>
@@ -71,7 +80,11 @@
 			<div class="user-list">
 				<div class="user-card" th:each="user : ${followers}">
 					<a th:href="@{'/user/' + ${user.memId} + '/recipes'}">
-						<p th:text="${user.memNickname}"></p>
+						<p>
+				            나를 팔로우한 사람 수: <span th:text="${follows.followerCount}">팔로워 수</span>
+				            <!-- 팔로워 목록을 클릭하면 팔로워된 사용자의 목록을 보고, 각 사용자 페이지로 이동 -->
+				            <a th:href="@{/mypage/follower/{memId}(memId=${user.memNickname})}">팔로워 목록</a>
+				        </p>
 					</a>
 				</div>
 			</div>
@@ -81,9 +94,12 @@
 			<h3>좋아요 레시피</h3>
 			<div class="recipe-grid">
 				<div class="recipe-card" th:each="recipe : ${likedRecipes}">
-					<a th:href="@{'/recipe/' + ${recipe.id}}"> <img
-						th:src="@{${recipe.imageUrl}}" alt="레시피 이미지">
-						<p th:text="${recipe.recipeTitle}"></p>
+					<a th:href="@{'/recipe/' + ${recipe.recipeId}}"> 
+						<img th:src="@{${recipe.imageUrl}}" alt="레시피 이미지">
+						<h4>
+		                    <a th:href="@{'/recipe/' + ${like.recipeId}}" th:text="${like.recipeTitle}">레시피 제목</a>
+		                </h4>
+						<p>좋아요 한 시간: <span th:text="${#temporals.format(like.likeAt, 'yyyy-MM-dd HH:mm')}">좋아요 시간</span></p>
 					</a>
 				</div>
 			</div>
@@ -93,9 +109,11 @@
 			<h3>나의 리뷰</h3>
 			<div class="review-list">
 				<div class="review-item" th:each="review : ${myReviews}">
-					<a th:href="@{'/recipe/' + ${review.recipe.id}}">
-						<h4 th:text="${review.recipe.recipeTitle}"></h4>
-						<p th:text="${review.recipeContent}"></p>
+					<a th:href="@{'/recipe/' + ${review.recipe.recipeId}}">
+						<h4 th:text="${review.reviewContent}">리뷰 내용</h4>
+		                <p th:text="${#temporals.format(review.reviewInsertAt, 'yyyy-MM-dd HH:mm')}">작성일</p>
+		                <!-- 리뷰 상세보기 -->
+		                <a th:href="@{'/review/' + ${review.reviewId}}" class="review-detail-link">상세보기</a>
 					</a>
 				</div>
 			</div>
@@ -104,14 +122,30 @@
 		<section id="messages" class="content-tab">
 			<h3>메시지</h3>
 			<ul>
-				<li th:each="message : ${messages}"><span
-					th:text="${message.messageContent}"></span>
-					<button type="button"
-						th:onclick="'markMessageRead(' + ${message.messageId} + ')'">읽음</button>
-					<button type="button"
-						th:onclick="'deleteMessage(' + ${message.messageId} + ')'">삭제</button>
+				<li th:each="message : ${messages}"><span th:text="${message.messageContent}"></span>
+					<h4 th:text="${message.messageTitle}">메시지 제목</h4>
+	                <p th:text="${#temporals.format(message.messageSendAt, 'yyyy-MM-dd HH:mm')}">보낸 시간</p>
+	                <p>읽음 여부: <span th:text="${message.messageIsRead == 'Y' ? '읽음' : '안 읽음'}">읽음 여부</span></p>
+					<a th:onclick="|deleteMessage('${message.messageId}')|">삭제</a>
+	                <a th:href="@{'/message/' + ${message.messageId}}" class="message-detail-link">상세보기</a>
 				</li>
 			</ul>
+		</section>
+		
+		<section id="member-info" class="content-tab">
+			<h3>회원 정보 수정</h3>
+			<div class="member-infolist">
+				<form>
+					<p>이름: <input type="text" th:value="${member.memName}"></p>
+			        <p>닉네임: <input type="text" th:value="${member.memNickname}"></p>
+			        <p>비밀번호: <input type="password" th:value="${member.memPassword}"></p>
+			        <p>이메일: <input type="text" th:value="${member.memEmail}"></p>
+			        <p>전화번호: <input type="text" th:value="${member.memPhone}"></p>
+			        <p>가입 날짜: <span th:text="${#temporals.format(member.memInsertAt, 'yyyy-MM-dd')}">가입 날짜</span></p>
+					<a th:href="@{'/memberUpdate/' + ${member.memId}}">수정</a>
+					<a th:href="@{'/deleteMember/' + ${member.memId}}">회원탈퇴</a>
+				</form>
+		    </div>
 		</section>
 	</div>
 </body>
