@@ -30,7 +30,7 @@ public class Review implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "REVIEW_ID", nullable = false)
+	@Column(name = "REVIEW_ID")
 	private Long reviewId;
 
 	@Column(name = "REVIEW_CONTENT", columnDefinition = "NVARCHAR2(1000)", nullable = false)

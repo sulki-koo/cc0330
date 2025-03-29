@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cook Cloud</title>
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/js/logout.js" defer></script>
+</head>
+<body class="bg-gray-100">
+        <nav th:replace="include/nav :: nav"></nav>
+    <main class="container mx-auto p-6">
+        <section class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">인기 레시피</h2>
+            <div class="flex items-center justify-center relative">
+                <button class="absolute left-0 p-2 bg-gray-200 rounded-full">&#9665;</button>
+                <div class="w-full h-40 bg-gray-300 flex items-center justify-center">음식 이미지</div>
+                <button class="absolute right-0 p-2 bg-gray-200 rounded-full">&#9655;</button>
+            </div>
+        </section>
+        
+        <section class="mt-6">
+            <h2 class="text-xl font-semibold mb-4">공지사항</h2>
+            <ul class="bg-white p-4 rounded-lg shadow-md">
+                <li class="p-2 border-b">공지사항 1</li>
+                <li class="p-2 border-b">공지사항 2</li>
+                <li class="p-2 border-b">공지사항 3</li>
+                <li class="p-2">공지사항 4</li>
+            </ul>
+        </section>
+        
+        <section class="mt-6 grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div class="bg-white p-4 rounded-lg shadow-md text-center">한식 이미지</div>
+            <div class="bg-white p-4 rounded-lg shadow-md text-center">분식 이미지</div>
+            <div class="bg-white p-4 rounded-lg shadow-md text-center">일식 이미지</div>
+            <div class="bg-white p-4 rounded-lg shadow-md text-center">양식 이미지</div>
+            <div class="bg-white p-4 rounded-lg shadow-md text-center">중식 이미지</div>
+            <div class="bg-white p-4 rounded-lg shadow-md text-center">아시안 이미지</div>
+            <div class="bg-white p-4 rounded-lg shadow-md text-center">야식 이미지</div>
+            <div class="bg-white p-4 rounded-lg shadow-md text-center">디저트 이미지</div>
+            <div class="bg-white p-4 rounded-lg shadow-md text-center">음료 이미지</div>
+            <div class="bg-white p-4 rounded-lg shadow-md text-center">도시락 이미지</div>
+        </section>
+    </main>
+    
+    <!-- 하단 링크 메뉴 추가 -->
+    <footer class="bg-gray-200 text-center p-4 mt-6">
+        <div class="flex justify-center space-x-6 mb-4">
+            <a href="/recipes" class="text-gray-700 hover:text-black">레시피</a>
+            <a href="/recommendation" class="text-gray-700 hover:text-black">취향 선택 추천</a>
+            <a href="/fridge" class="text-gray-700 hover:text-black">냉장고 정리</a>
+            <a href="/notice" class="text-gray-700 hover:text-black">공지 & 문의</a>
+        </div>
+        <p>문의: cookcloud@example.com</p>
+    </footer>
+</body>
+</html>

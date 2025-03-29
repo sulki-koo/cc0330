@@ -28,12 +28,8 @@ public class Likes implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "LIKE_ID", nullable = false)
+	@Column(name = "LIKE_ID")
 	private Long likeId;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LIKE_AT", nullable = false)
-	private LocalDateTime likeAt;
 
 	@Column(name = "LIKE_IS_LIKED", columnDefinition = "CHAR(1)", nullable = false)
 	private String likeIsLiked;

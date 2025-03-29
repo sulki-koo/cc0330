@@ -1,5 +1,7 @@
 package cookcloud.service;
 
-public interface AttachmentService {
+import cookcloud.service.AttachmentService;
+
+public class AttachmentService {
 
 }

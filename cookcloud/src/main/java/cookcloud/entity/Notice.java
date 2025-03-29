@@ -26,7 +26,7 @@ public class Notice implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="NOTICE_ID", nullable = false)
+	@Column(name="NOTICE_ID")
 	private Long noticeId;
 
 	@Column(name="NOTICE_TITLE", columnDefinition = "NVARCHAR2(50)", nullable = false)

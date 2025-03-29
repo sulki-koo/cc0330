@@ -25,7 +25,7 @@ public class Hashtag implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="HASH_ID", nullable = false)
+	@Column(name="HASH_ID")
 	private Long hashId;
 
 	@Column(name="HASH_NAME", columnDefinition = "NVARCHAR2(20)", nullable = false)

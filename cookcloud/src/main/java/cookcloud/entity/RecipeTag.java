@@ -24,7 +24,7 @@ public class RecipeTag implements Serializable {
 	private static final long serialVersionUID = 472551661700793L;
 
 	@Id
-	@Column(name="RECIPE_ID", nullable = false)
+	@Column(name="RECIPE_ID")
 	private Long recipeId;
 	
 	@ManyToOne
@@ -32,7 +32,7 @@ public class RecipeTag implements Serializable {
 	private Recipe recipe;
 
 	@Id
-	@Column(name="HASH_ID", nullable = false)
+	@Column(name="HASH_ID")
 	private Long hashId;
 	
 	@ManyToOne

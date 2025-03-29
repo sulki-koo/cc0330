@@ -28,7 +28,7 @@ public class Message implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "MESSAGE_ID", nullable = false)
+	@Column(name = "MESSAGE_ID")
 	private Long messageId;
 
 	@Column(name = "MESSAGE_TITLE", columnDefinition = "NVARCHAR2(30)", nullable = false)

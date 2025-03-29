@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<nav th:fragment="nav">
+	    <a href="/">홈</a>
+	    <a href="/recipes">레시피</a>
+	    <a href="/recommendation">취향 선택 추천</a>
+	    <!-- 인증된 사용자 표시 -->
+	    <a href="/mypage" th:if="${#authorization.expr('isAuthenticated()')}">마이페이지</a>
+	    <a href="#" id="logoutLink" th:if="${#authorization.expr('isAuthenticated()')}">로그아웃</a>
+	    <!-- 인증되지 않은 사용자 표시 -->
+	    <a href="/login" th:if="${#authorization.expr('!isAuthenticated()')}">로그인</a>
+	    <a href="/signup" th:if="${#authorization.expr('!isAuthenticated()')}">회원가입</a>
+</nav>
+</html>

@@ -18,22 +18,6 @@ body {
     align-items: center;
 }
 
-/* 네비게이션 */
-nav {
-    width: 100%;
-    background: linear-gradient(86deg, #f0e333, #6ce63c, #27dcb2, #23adcc, #5118bc);
-    padding: 10px 0;
-    text-align: center;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    margin: 0 15px;
-    font-size: 16px;
-}
-
 /* 프로필 정보 */
 .profile-header {
     display: flex;
@@ -99,6 +83,36 @@ nav a {
     border-color: #FFD54F; /* 포인트로 테두리 레몬 */
 }
 
+.save-button {
+    padding: 10px 15px;
+    border: 2px solid #FFD54F; /* 레몬색 테두리 */
+    background: linear-gradient(216deg, #ebf033, #23ccc4, #23ccc4, #23ccc4, #ebf033);
+    color: white;
+    font-weight: bold;
+    font-size:15px;
+    cursor: pointer;
+    border-radius: 10px; /* 부드러운 모서리 */
+    transition: all 0.3s ease;
+}
+
+.save-button:hover {
+    background-color: #555;
+}
+
+.del-btn {
+    width: 10%;
+    padding: 10px;
+    background-color: white;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.del-btn:hover {
+    background-color: #555;
+}
 
 /* 콘텐츠 영역 */
 .content-section {
@@ -128,7 +142,6 @@ nav a {
     width: 100%;
     border-radius: 10px;
 }
-
 
 /* 🔥 반응형 스타일 적용 */
 
@@ -167,15 +180,6 @@ nav a {
 
 /* ✅ 모바일 화면 (480px 이하) */
 @media (max-width: 480px) {
-    nav {
-        padding: 8px 0;
-    }
-
-    nav a {
-        font-size: 14px;
-        margin: 0 10px;
-    }
-
     .profile-header h2 {
         font-size: 20px;
     }

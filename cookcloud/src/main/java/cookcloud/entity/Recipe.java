@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.data.annotation.Transient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,12 +14,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreRemove;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,7 +33,7 @@ public class Recipe implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="RECIPE_ID", nullable = false)
+	@Column(name="RECIPE_ID")
 	private Long recipeId;
 
 	@Column(name="RECIPE_TITLE", columnDefinition = "NVARCHAR2(100)", nullable = false)
@@ -51,26 +49,19 @@ public class Recipe implements Serializable {
 	@Column(name="RECIPE_INSERT_AT", nullable = false)
 	private LocalDateTime recipeInsertAt;
 	
-	@PrePersist
-	protected void onInsert() {
-		this.recipeInsertAt = LocalDateTime.now();
-	}
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="RECIPE_UPDATE_AT")
 	private LocalDateTime recipeUpdateAt;
 	
-	@PreUpdate
-	protected void onUpdate() {
-		this.recipeUpdateAt = LocalDateTime.now();
-	}
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="RECIPE_DELETE_AT")
 	private LocalDateTime recipeDeleteAt;
 	
 	@Column(name="RECIPE_IS_DELETED", columnDefinition = "CHAR(1)", nullable = false)
 	private String recipeIsDeleted;
+	
+	@Column(name="RECIPE_CODE", nullable = false)
+	private Long recipeCode;
 
 	@Column(name="RECIPE_BOARD_CODE", nullable = false)
 	private Long recipeBoardCode;
@@ -95,15 +86,13 @@ public class Recipe implements Serializable {
 	private List<Likes> likesList;
 	
 	@OneToMany(mappedBy = "recipe")
-	private List<RecipeType> recipeTypeList;
-	
-	@OneToMany(mappedBy = "recipe")
 	private List<RecipeTag> recipeTagList;
 	
 	@OneToMany(mappedBy = "recipe")
 	private List<Attachment> attachList;
 	
 	@Transient
+	@JsonIgnore
 	private String imageUrl;
 
 	public String getImageUrl() {
@@ -112,6 +101,5 @@ public class Recipe implements Serializable {
 	    }
 	    return "/default-image.jpg"; // 기본 이미지
 	}
-
 
 }

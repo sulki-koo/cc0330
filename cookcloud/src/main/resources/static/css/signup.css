@@ -1,0 +1,160 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f8f8;
+    margin: 0;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    width: 500px;
+}
+
+.input-field-wrapper {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    justify-content: flex-start; /* 좌측 정렬 */
+    gap: 10px; /* input 사이의 간격 설정 */
+}
+
+.input-field {
+    width: 100%; /* input의 너비를 100%로 설정 */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+/* 드롭다운 스타일 */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    max-height: 150px;
+    overflow-y: auto;
+    border-radius: 5px;
+    z-index: 999;
+}
+
+.dropdown-content span {
+    display: block;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.dropdown-content span:hover {
+    background-color: #23ccc4;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* 선택된 알러지 버튼 스타일 */
+#selected-allergies {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.allergy-btn {
+    background: #23ccc4;
+    color: black;
+    padding: 5px 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.allergy-btn .remove-btn {
+    margin-left: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.allergy-btn:hover {
+    font-weight: bold;
+    background-color: #45a049;
+}
+
+.remove-btn:hover {
+    font-weight: bold;
+    color: yellow;
+}
+
+/* 제출 버튼 스타일 */
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #555;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* 미디어 쿼리 */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 15px; /* padding을 줄여서 모바일에서도 잘 보이게 조정 */
+    }
+
+    .input-field-wrapper {
+        flex-direction: column; /* 모바일에서는 label과 input을 세로로 배치 */
+        align-items: flex-start; /* 왼쪽 정렬 */
+    }
+
+    .input-field {
+        width: 100%; /* 작은 화면에서는 input의 너비를 100%로 설정 */
+    }
+
+    .dropdown-content {
+        max-height: 120px; /* 드롭다운 높이를 줄여서 작은 화면에서도 적절히 보이도록 */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .input-field {
+        width: 100%; /* 작은 화면에서는 input의 너비를 100%로 설정 */
+    }
+}

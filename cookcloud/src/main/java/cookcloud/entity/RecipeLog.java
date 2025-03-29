@@ -28,7 +28,7 @@ public class RecipeLog implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="LOGGING_ID", nullable = false)
+	@Column(name="LOGGING_ID")
 	private Long loggingId;
 
 	@Column(name="LOGGING_ACTION", columnDefinition = "VARCHAR2(20)", nullable = false)

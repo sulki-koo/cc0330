@@ -6,8 +6,6 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -27,16 +25,16 @@ public class Member implements Serializable{
 	private static final long serialVersionUID = 958674608281975L;
 
 	@Id
-	@Column(name="MEM_ID", columnDefinition = "VARCHAR2(20)", nullable = false)
+	@Column(name="MEM_ID", columnDefinition = "VARCHAR2(20)")
 	private String memId;
 
 	@Column(name="MEM_PASSWORD",columnDefinition = "VARCHAR2(255)", nullable = false)
 	private String memPassword;
 
-	@Column(name="MEM_NAME", unique = true, columnDefinition = "NVARCHAR2(50)", nullable = false)
+	@Column(name="MEM_NAME", columnDefinition = "NVARCHAR2(50)", nullable = false)
 	private String memName;
 
-	@Column(name="MEM_NICKNAME", columnDefinition = "NVARCHAR2(10)", nullable = false)
+	@Column(name="MEM_NICKNAME", unique = true, columnDefinition = "NVARCHAR2(10)", nullable = false)
 	private String memNickname;
 
 	@Column(name="MEM_EMAIL", columnDefinition = "VARCHAR2(50)", nullable = false)
@@ -79,12 +77,6 @@ public class Member implements Serializable{
 	
 	@OneToMany(mappedBy = "member")
 	private List<Message> messageList;
-	
-	@OneToMany(mappedBy = "member")
-	private List<MemberAllergyFood> memberAllergyFoodList;
-	
-	@OneToMany(mappedBy = "member")
-	private List<Inquiry> inquiryList;
 	
 	@OneToMany(mappedBy = "member")
 	private List<Report> reportList;

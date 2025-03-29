@@ -28,7 +28,7 @@ public class Attachment implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ATTACH_ID", nullable = false)
+	@Column(name="ATTACH_ID")
 	private Long attachId;
 
 	@Column(name="ATTACH_UPLOAD_NAME", columnDefinition = "NVARCHAR2(100)", nullable = false)
@@ -39,9 +39,6 @@ public class Attachment implements Serializable{
 
 	@Column(name="ATTACH_SIZE", nullable = false)
 	private Long attachSize;
-
-	@Column(name="ATTACH_ORDER", nullable = false)
-	private Long attachOrder;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="ATTACH_INSERT_AT", nullable = false)

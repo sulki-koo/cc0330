@@ -28,7 +28,7 @@ public class Report implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="REPORT_ID", nullable = false)
+	@Column(name="REPORT_ID")
 	private Long reportId;
 
 	@Column(name="REPORT_REASON", columnDefinition = "NVARCHAR2(500)", nullable = false)

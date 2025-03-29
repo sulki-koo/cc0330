@@ -1,5 +1,7 @@
 package cookcloud.service;
 
-public interface NoticeService {
+import cookcloud.service.NoticeService;
+
+public class NoticeService {
 
 }

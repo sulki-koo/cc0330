@@ -1,40 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <title>회원가입</title>
+<meta charset="UTF-8">
+<title>회원가입</title>
+<link rel="stylesheet" th:href="@{/css/signup.css}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/saveMember.js" defer></script>
 </head>
 <body>
-    <h2>회원가입</h2>
-    
-    <form action="/signup" method="post">
-        <label for="memId">아이디:</label>
-        <input type="text" id="memId" name="memId" required><br><br>
+	<div class="container">
+		<h2>회원가입</h2>
+		<form th:object="${member}">
+			아이디<input type="text" id="id" class="input-field" name="memId" required><br>
+			<span id="idError" class="error-message"></span><br>
+			비밀번호<input type="password" id="password" class="input-field" name="memPassword" required><br>
+			<span id="passwordError" class="error-message"></span><br>
+			비밀번호 확인<input type="password" id="checkPassword" class="input-field"><br>
+			<span id="checkPasswordError" class="error-message"></span><br>
+			이름<input type="text" id="name" class="input-field" name="memName" required><br>
+			<span id="nameError" class="error-message"></span><br>
+			닉네임<input type="text" id="nickname" class="input-field" name="memNickname" required><br>
+			<span id="nicknameError" class="error-message"></span><br>
+			 이메일<input type="email" id="email" class="input-field" name="memEmail" required><br>
+			 <span id="emailError" class="error-message"></span><br>
+			 전화번호<input type="text" id="phone" class="input-field" name="memPhone" required><br>
+			 <span id="phoneError" class="error-message"></span><br>
+			<input type="button" id="saveMember" class="submit-btn" th:value="가입하기">
+		</form>
+		<br>
 
-        <label for="memPassword">비밀번호:</label>
-        <input type="password" id="memPassword" name="memPassword" required><br><br>
+		<!-- 오류 메시지 -->
+		<p th:if="${error}" th:text="${error}" style="color: red;"></p>
 
-        <label for="memName">이름:</label>
-        <input type="text" id="memName" name="memName" required><br><br>
-
-        <label for="memNickname">닉네임:</label>
-        <input type="text" id="memNickname" name="memNickname" required><br><br>
-
-        <label for="memEmail">이메일:</label>
-        <input type="email" id="memEmail" name="memEmail" required><br><br>
-
-        <label for="memPhone">전화번호:</label>
-        <input type="text" id="memPhone" name="memPhone" required><br><br>
-
-        <button type="submit">가입하기</button>
-    </form>
-
-    <!-- 성공 메시지 -->
-    <p th:if="${message}" th:text="${message}" style="color: green;"></p>
-
-    <!-- 오류 메시지 -->
-    <p th:if="${error}" th:text="${error}" style="color: red;"></p>
-
-    <a href="/login">로그인 페이지로 이동</a>
+		<a th:href="@{/login}">로그인 하기</a>
+	</div>
 </body>
 </html>

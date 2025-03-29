@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="recipe/header :: header"></head>
+<body>
+    <nav th:replace="include/nav :: nav"></nav>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between">
+            <h2 th:text="${recipe.recipeTitle}">레시피 제목</h2>
+	        <button class="btn btn-danger" th:onclick="|showReportPopup(${recipe.recipeId}, 'RECIPE')|">
+            	<i class="bi bi-flag"></i> 신고
+            </button>
+        </div>
+        
+		<p>
+			작성자: <span th:text="${nickname}">작성자</span>&nbsp;&nbsp;
+            조회수: <span th:text="${recipe.recipeViewCount}">0</span>&nbsp;&nbsp;
+            작성일: <span th:text="${#temporals.format(recipe.recipeInsertAt, 'YY.MM.dd HH:mm')}">작성일</span>
+        </p>
+        <div class="d-flex justify-content-between">
+        <p th:text="${recipe.recipeContent}">레시피 내용</p>
+        </div>
+		<br><br>
+        <div class="d-flex justify-content-between align-items-center">
+            <button id="likeBtn" class="btn" 
+            	th:classappend="${liked} ? 'btn-danger' : 'btn-outline-danger'" 
+            	th:data-recipe-id="${recipe.recipeId}"
+            	onclick="toggleLike(this, 'recipe')">
+                <i id="likeIcon" class="bi bi-heart"></i> 좋아요
+            </button>
+            <button id="followBtn" class="btn" 
+            	th:classappend="${following} ? 'btn-warning' : 'btn-outline-secondary'" 
+            	th:data-user-id="${recipe.memId}"
+            	onclick="toggleFollow(this)">
+                <i id="followIcon" class="bi bi-bell"></i> 팔로우
+            </button>
+			<button type="button" th:onclick="location.href='/recipes'" class="btn btn-primary">목록</button>
+        </div><br>
+		
+		<div th:if="${#authorization.expr('isAuthenticated()') and #authentication.principal.username == recipe.memId}">
+            <form id="reviewForm" action="/reviews/create" method="post">
+                <button type="button" th:onclick="|location.href='/recipes/update/' + ${recipe.recipeId}|" class="btn btn-primary">수정</button>
+		        <button type="button" th:onclick="|location.href='/recipes/delete/' + ${recipe.recipeId}|" class="btn btn-primary">삭제</button>
+            </form>
+        </div>
+		
+        <!-- 신고 팝업 (모달) -->
+		<div id="reportModal" style="display:none;">
+		    <form id="reportForm" method="post">
+		        <input type="hidden" id="targetId" name="targetId">
+		        <input type="hidden" id="reportType" name="reportType">
+		        <p>신고 사유를 선택하세요:</p>
+		        <select name="reportCode" required>
+		            <option value="">선택하세요</option>
+		            <option value="">선택하세요</option>
+				    <option th:each="reportType : ${reportTypes}" 
+				            th:value="${reportType.key.codeId}" 
+				            th:text="${reportType.value.codeName}">
+				    </option>
+		        </select>
+		        <button type="submit" class="save-button">신고</button>
+		        <button type="button" onclick="closeReportPopup()" class="del-btn">닫기</button>
+		    </form>
+		</div>
+		
+        <!-- 리뷰 작성 (로그인한 사용자만 가능) -->
+        <div th:if="${#authorization.expr('isAuthenticated()')}">
+            <h6>리뷰 작성</h6>
+            <form id="reviewForm" action="/reviews/create" method="post">
+                <input type="hidden" name="recipeId" th:value="${recipe.recipeId}">
+                <textarea name="content" class="form-control" required></textarea>
+                <button type="submit" class="btn btn-primary mt-2">작성</button>
+            </form>
+        </div>
+
+        <!-- 리뷰 목록 (무한 스크롤) -->
+        <h6 class="mt-4">리뷰</h6>
+        <div id="reviews"></div>
+        <div id="loading" class="text-center mt-2" style="display: none;">로딩 중...</div>
+		<div class="review-item" th:each="review : ${myReviews}">
+			<a th:href="@{'/recipes/recipe/' + ${review.recipe.recipeId}}">
+				<h6 th:text="${review.reviewContent}">리뷰 내용</h6>
+		            <p th:text="${#temporals.format(review.reviewInsertAt, 'yyyy-MM-dd HH:mm')}">작성일</p>
+		            <div th:if="${#authorization.expr('isAuthenticated()') and #authentication.principal.username == review.reviewId}">
+		            <button type="button" th:onclick="|location.href='/review/update/' + ${review.reviewId}|" class="btn btn-primary">수정</button>
+		        	<button type="button" th:onclick="|location.href='/review/delete/' + ${review.reviewId}|" class="btn btn-primary">삭제</button>
+		        	</div>
+				</a>
+		</div>        
+    </div>
+</body>
+<script src="/js/reviewList.js"></script>
+</html>

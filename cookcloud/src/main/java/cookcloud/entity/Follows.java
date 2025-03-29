@@ -35,7 +35,7 @@ public class Follows implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "FOLLOWER_ID", insertable = false, updatable = false)
 	private Member follower;
-	
+
 	@Id
 	@Column(name = "FOLLOWING_ID", columnDefinition = "VARCHAR2(20)")
 	private String followingId;
@@ -43,14 +43,6 @@ public class Follows implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "FOLLOWING_ID", insertable = false, updatable = false)
 	private Member following;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "FOLLOW_AT")
-	private LocalDateTime followAt;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "FOLLOW_DELETE_AT")
-	private LocalDateTime followDeleteAt;
 
 	@Column(name = "FOLLOW_IS_FOLLOWING", columnDefinition = "CHAR(1)")
 	private String followIsFollowing;
