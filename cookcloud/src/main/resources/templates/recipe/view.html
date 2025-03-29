@@ -10,7 +10,7 @@
             	<i class="bi bi-flag"></i> 신고
             </button>
         </div>
-        
+        <input type="hidden" id="recipeId" name="${recipe.recipeId}">
 		<p>
 			작성자: <span th:text="${nickname}">작성자</span>&nbsp;&nbsp;
             조회수: <span th:text="${recipe.recipeViewCount}">0</span>&nbsp;&nbsp;
@@ -44,21 +44,28 @@
         </div>
 		
         <!-- 신고 팝업 (모달) -->
-		<div id="reportModal" style="display:none;">
-		    <form id="reportForm" method="post">
-		        <input type="hidden" id="targetId" name="targetId">
-		        <input type="hidden" id="reportType" name="reportType">
-		        <p>신고 사유를 선택하세요:</p>
-		        <select name="reportCode" required>
-		            <option value="">선택하세요</option>
-		            <option value="">선택하세요</option>
-				    <option th:each="reportType : ${reportTypes}" 
-				            th:value="${reportType.key.codeId}" 
-				            th:text="${reportType.value.codeName}">
-				    </option>
-		        </select>
-		        <button type="submit" class="save-button">신고</button>
-		        <button type="button" onclick="closeReportPopup()" class="del-btn">닫기</button>
+        <div id="reportOverlay" class="overlay" onclick="closeReportPopup()"></div>
+		<div id="reportModal" class="modal">
+	    <div class="modal-header">
+	        <h2>신고하기</h2>
+		        <span class="close-btn" onclick="closeReportPopup()">✖</span>
+			    </div>
+			    <form id="reportForm" method="post">
+			        <input type="hidden" id="targetId" name="targetId">
+			        <input type="hidden" id="reportType" name="reportType">
+			        <p>신고 사유를 선택하세요:</p>
+			        <select class="form-select" name="reportType" required>
+			            <option value="">선택하세요</option>
+					    <option th:each="entry : ${reportTypes}" 
+					            th:value="${entry.key}" 
+					            th:text="${entry.value.codeName}">
+					    </option>
+		       		</select>
+			       	<textarea class="form-control" id="reportReason" name="reportReason" rows="4" required></textarea>
+			         <div class="modal-footer">
+	            <button type="submit" class="save-button">신고</button>
+	            <button type="button" class="del-btn" onclick="closeReportPopup()">닫기</button>
+	        </div>
 		    </form>
 		</div>
 		

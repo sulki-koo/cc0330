@@ -9,7 +9,7 @@ import cookcloud.entity.Attachment;
 
 public interface AttachmentRepository extends JpaRepository<Attachment, Long>{
 	
-	@Query("SELECT a FROM Attachment a WHERE a.attachIsDeleted='n'")
+	@Query("SELECT a FROM Attachment a WHERE a.attachIsDeleted='N'")
 	List<Attachment> findActiveAttach();
 
 }

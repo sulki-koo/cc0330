@@ -14,16 +14,16 @@ import cookcloud.entity.FollowsId;
 @Repository
 public interface FollowsRepository extends JpaRepository<Follows, FollowsId> {
 	
-	@Query("SELECT f FROM Follows f WHERE f.followIsFollowing ='n' ORDER BY f.followerId DESC")
+	@Query("SELECT f FROM Follows f WHERE f.followIsFollowing ='N' ORDER BY f.followerId DESC")
 	List<Follows> findActiveFollows();
 	
-	@Query("SELECT f FROM Follows f WHERE f.followIsFollowing = 'n' AND f.followerId = :memId ORDER BY f.followerId DESC")
+	@Query("SELECT f FROM Follows f WHERE f.followIsFollowing = 'N' AND f.followerId = :memId ORDER BY f.followerId DESC")
 	List<Follows> findByFollowerId(@Param("memId") String memId);
 
-	@Query("SELECT f FROM Follows f WHERE f.followIsFollowing = 'n' AND f.followingId = :memId ORDER BY f.followingId DESC")
+	@Query("SELECT f FROM Follows f WHERE f.followIsFollowing = 'N' AND f.followingId = :memId ORDER BY f.followingId DESC")
 	List<Follows> findByFollowingId(@Param("memId") String memId);
 	
-	@Query("SELECT f FROM Follows f WHERE f.followIsFollowing = 'n' AND f.followingId = :followingId AND f.followerId = :followerId")
+	@Query("SELECT f FROM Follows f WHERE f.followIsFollowing = 'N' AND f.followingId = :followingId AND f.followerId = :followerId")
     Optional<Follows> findByFollowingIdAndFollowerId(@Param("followingId")String followingId, @Param("followerId")String followerId);
 
 	

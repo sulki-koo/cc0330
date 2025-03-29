@@ -21,6 +21,10 @@ public class LikesService {
 	public List<Recipe> getLikedRecipes(String memId) {
 		return likesRepository.findByMemId(memId).stream().map(Likes::getRecipe).collect(Collectors.toList());
 	}
+	
+	public Optional<Likes> isLikedByUser(Long recipeId, String memId) {
+	    return likesRepository.findByRecipeIdAndMemId(recipeId, memId);
+	}
 
 	// 레시피 좋아요 토글
 	public boolean toggleLikeRecipe(Long recipeId, String memId) {

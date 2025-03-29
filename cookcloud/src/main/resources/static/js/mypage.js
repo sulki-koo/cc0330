@@ -9,11 +9,20 @@ document.addEventListener("DOMContentLoaded", function() {
 	showTab(initialTab, false);
 
 	buttons.forEach(button => {
-		button.addEventListener("click", function() {
-			const targetId = this.getAttribute("data-target");
-			showTab(targetId, true);
-		});
+		button.removeEventListener("click", tabClickHandler); // 기존 핸들러 제거
+		button.addEventListener("click", tabClickHandler);
 	});
+
+	function tabClickHandler() {
+		const targetId = this.getAttribute("data-target");
+		showTab(targetId, true);
+
+		// 데이터 로딩 관련 처리
+		currentType = this.dataset.type;
+		offset = 0;
+		document.getElementById(`${currentType}-container`).innerHTML = ""; // 기존 데이터 삭제
+		loadMoreData(currentType);
+	}
 
 	// URL 변경 없이 탭 상태 관리
 	function showTab(targetId, updateHistory = true) {
@@ -36,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			showTab(event.state.tab, false);
 		}
 	});
+
 });
 
 let offset = 0;

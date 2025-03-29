@@ -20,7 +20,7 @@ import cookcloud.service.RecipeService;
 import cookcloud.service.ReviewService;
 
 @Controller
-@RequestMapping("likes")
+@RequestMapping("/likes")
 public class LikesController {
 
 	@Autowired

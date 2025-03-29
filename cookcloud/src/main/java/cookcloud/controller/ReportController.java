@@ -26,23 +26,6 @@ public class ReportController {
 	@Autowired
 	private ReportService reportService;
 
-	public Map<CodeId, Code> getReportTypes(HttpServletRequest request) {
-		return ((Map<CodeId, Code>) request.getServletContext().getAttribute("codeMap")).entrySet().stream()
-				.filter(entry -> entry.getKey().getParentCode() == 7L)
-				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-	}
-
-	// 신고 폼 페이지
-	@GetMapping("/{type}/{id}")
-	public String reportForm(@PathVariable String type, @PathVariable Long id, Model model,
-			HttpServletRequest request) {
-		model.addAttribute("reportTypes", getReportTypes(request));
-		model.addAttribute("report", new Report());
-		model.addAttribute("type", type);
-		model.addAttribute("id", id);
-		return "recipe/view";
-	}
-
 	// 신고 처리
 	@PostMapping("/{type}/{id}")
 	@ResponseBody

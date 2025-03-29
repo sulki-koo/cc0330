@@ -12,16 +12,14 @@
                         <option th:value="${entry.key}" th:text="${entry.value.codeName}"></option>
                     </th:block>
                 </select>
-                <input type="text" id="hashtagSearch" class="form-control" placeholder="Search by Hashtag">
-                <button id="searchHashtagBtn" class="btn btn-secondary">Search</button>
                 <input type="text" id="searchInput" class="form-control" placeholder="검색 (제목, 닉네임, 해시태그, 유형)">
+                <button id="searchHashtagBtn" class="btn btn-secondary">Search</button>
             </div>
             <div class="col-md-4 text-end">
                 <button th:onclick="location.href='/recipes/create'" id="addRecipeBtn" class="btn btn-primary">레시피 등록</button>
             </div>
         </div>
 
-        <div class="container mt-4" id="recipe-list">
 		    <div class="recipe-card" th:each="recipe : ${recipes}">
 					<a th:href="@{'/recipes/recipe/' + ${recipe.recipeId}}"> <img th:src="@{${recipe.imageUrl}}" alt="레시피 이미지">
 						<h4>
@@ -35,7 +33,6 @@
 		        <span>로딩 중...</span>
 		    </div>
 		</div>
-    </div>
 </body>
 <script src="/js/recipeList.js"></script>
 </html>

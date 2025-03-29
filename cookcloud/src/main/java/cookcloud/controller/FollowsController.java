@@ -15,7 +15,7 @@ import cookcloud.service.MemberService;
 import cookcloud.service.MessageService;
 
 @Controller
-@RequestMapping("follows")
+@RequestMapping("/follows")
 public class FollowsController {
 
 	@Autowired
