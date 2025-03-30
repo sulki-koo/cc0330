@@ -1,6 +1,7 @@
 package cookcloud.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cookcloud.entity.Likes;
-import cookcloud.entity.Recipe;
 import cookcloud.repository.LikesRepository;
 
 @Service
@@ -18,14 +18,17 @@ public class LikesService {
 	private LikesRepository likesRepository;
 
 	// 좋아요한 레시피 조회
-	public List<Recipe> getLikedRecipes(String memId) {
-		return likesRepository.findByMemId(memId).stream().map(Likes::getRecipe).collect(Collectors.toList());
+	public List<Long> getLikedRecipeIds(String memId) {
+	    return likesRepository.findRecipeIdsByMemId(memId)
+	                          .stream()
+	                          .filter(Objects::nonNull)  // null 제거
+	                          .collect(Collectors.toList());
 	}
 	
-	public Optional<Likes> isLikedByUser(Long recipeId, String memId) {
+	public Optional<Likes> isLikedRecipeMemId(Long recipeId, String memId) {
 	    return likesRepository.findByRecipeIdAndMemId(recipeId, memId);
 	}
-
+	
 	// 레시피 좋아요 토글
 	public boolean toggleLikeRecipe(Long recipeId, String memId) {
 		return toggleLike(recipeId, memId, "recipe");

@@ -1,8 +1,8 @@
 package cookcloud.service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -10,13 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cookcloud.entity.Code;
-import cookcloud.entity.CodeId;
 import cookcloud.entity.Hashtag;
 import cookcloud.entity.Member;
 import cookcloud.entity.Recipe;
 import cookcloud.entity.RecipeTag;
-import cookcloud.repository.*;
+import cookcloud.repository.HashtagRepository;
+import cookcloud.repository.MemberRepository;
+import cookcloud.repository.RecipeRepository;
+import cookcloud.repository.RecipeTagRepository;
 
 @Service
 public class RecipeService {
@@ -32,6 +33,9 @@ public class RecipeService {
 
 	@Autowired
 	private HashtagRepository hashtagRepository;
+	
+	@Autowired
+	private LikesService likesService;
 	
 	public List<Recipe> getRecipes() {
 		return recipeRepository.findAllNotDeleted();
@@ -76,6 +80,14 @@ public class RecipeService {
 			iae.printStackTrace();
 			return List.of();
 		}
+	}
+
+	public List<Recipe> getLikedRecipes(String memId) {
+	    List<Long> likedRecipeIds = likesService.getLikedRecipeIds(memId); // 좋아요한 recipeId 목록 가져오기
+	    if (likedRecipeIds.isEmpty()) {
+	        return Collections.emptyList(); // 좋아요한 레시피가 없으면 빈 리스트 반환
+	    }
+	    return recipeRepository.findRecipesByIds(likedRecipeIds);
 	}
 
 	// 키워드 검색

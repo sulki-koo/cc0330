@@ -43,7 +43,7 @@ public class Likes implements Serializable {
 
 	@Column(name = "REVIEW_ID")
 	private Long reviewId;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "REWIEW_ID", insertable = false, updatable = false)
 	private Review review;

@@ -2,8 +2,8 @@ package cookcloud.pubsub;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnMessage;
@@ -13,70 +13,42 @@ import jakarta.websocket.server.ServerEndpoint;
 
 @ServerEndpoint("/pubsub")
 public class PubSubServer {
-	private static final Set<Session> clients = Collections.synchronizedSet(new HashSet<>());
+	// 세션 ID를 키로, Session을 값으로 하는 Map
+	private static final Map<String, Session> sessionMap = Collections.synchronizedMap(new HashMap<>());
 
 	@OnOpen
 	public void onOpen(Session session) {
-		clients.add(session);
+		sessionMap.put(session.getId(), session);
 		System.out.println("New subscriber connected: " + session.getId());
+		System.out.println("Total connected sessions: " + sessionMap.size());
 	}
 
 	@OnMessage
 	public void onMessage(String message, Session sender) {
-		// 클라이언트가 보내는 메시지에서 memId와 메시지 내용 분리
-		String[] parts = message.split(":", 2);
-
-		if (parts.length == 2) {
-			String memId = parts[0]; // memId는 메시지의 앞부분
-			String content = parts[1]; // 메시지 본문
-
-			// 현재 세션에 memId 저장 (세션 객체에 UserProperties를 사용하여 memId 저장)
-			sender.getUserProperties().put("memId", memId);
-			System.out.println("User with memId " + memId + " connected and received message: " + content);
-
-			// 특정 memId에만 메시지 전송
-			sendMessageToMemId(memId, "Message for " + memId + ": " + content);
-		} else {
-			System.out.println("Invalid message format");
-		}
-
+		// 예제에서는 클라이언트가 보낸 메시지에 따라, 그 클라이언트(세션)에게 에코 메시지를 전송합니다.
+		System.out.println("Received message from session " + sender.getId() + ": " + message);
+		sendMessageToSession(sender.getId(), "Echo: " + message);
 	}
 
 	@OnClose
 	public void onClose(Session session) {
-		clients.remove(session);
+		sessionMap.remove(session.getId());
 		System.out.println("Subscriber disconnected: " + session.getId());
+		System.out.println("Total connected sessions: " + sessionMap.size());
 	}
 
-	public static void broadcastMessage(String message) {
-		synchronized (clients) {
-			for (Session client : clients) {
-				try {
-					client.getBasicRemote().sendText(message);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+	// 특정 세션 ID에 메시지 전송
+	public static void sendMessageToSession(String sessionId, String message) {
+		Session session = sessionMap.get(sessionId);
+		if (session != null) {
+			try {
+				session.getBasicRemote().sendText(message);
+				System.out.println("Message sent to session " + sessionId + ": " + message);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+		} else {
+			System.out.println("No session found with ID: " + sessionId);
 		}
 	}
-
-	// 특정 memId에 메시지 전송
-	public static void sendMessageToMemId(String memId, String message) {
-		synchronized (clients) {
-			// 모든 세션을 탐색하여 특정 memId를 가진 세션을 찾음
-			for (Session session : clients) {
-				String sessionMemId = (String) session.getUserProperties().get("memId");
-
-				if (memId.equals(sessionMemId)) {
-					try {
-						session.getBasicRemote().sendText(message); // 해당 세션에만 메시지 전송
-						System.out.println("Message sent to memId " + memId);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-	}
-
 }

@@ -16,6 +16,9 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	
 	@Query("SELECT r FROM Recipe r WHERE r.recipeId = :recipeId AND r.recipeIsDeleted = 'N'")
 	Optional<Recipe> findByIdAndNotDeleted(@Param("recipeId") Long recipeId);
+	
+	@Query("SELECT r FROM Recipe r WHERE r.id IN :recipeIds AND r.recipeIsDeleted = 'N' ORDER BY r.recipeId DESC")
+	List<Recipe> findRecipesByIds(@Param("recipeIds") List<Long> recipeIds);
 
 	@Query("SELECT r FROM Recipe r WHERE r.memId = :memId AND r.recipeIsDeleted = 'N' ORDER BY r.recipeId DESC")
 	List<Recipe> findByMemId(@Param("memId") String memId);

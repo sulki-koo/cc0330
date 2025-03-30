@@ -6,8 +6,10 @@ $(document).ready(function() {
 		$.post(`/recipes/follow/${recipeId}`, function(response) {
 			if (response.followed) {
 				$("#followIcon").removeClass("bi-bell").addClass("bi-bell-fill text-warning");
+				location.reload();
 			} else {
 				$("#followIcon").removeClass("bi-bell-fill text-warning").addClass("bi-bell");
+				location.reload();
 			}
 		});
 	});
@@ -35,8 +37,10 @@ function toggleLike(button, type) {
         // 서버에서 좋아요 처리 결과가 오면 하트 아이콘 상태 변경
         if (response === "좋아요 추가") {
             $(button).find("i").removeClass("bi-heart").addClass("bi-heart-fill text-danger");
+			location.reload();
         } else {
             $(button).find("i").removeClass("bi-heart-fill text-danger").addClass("bi-heart");
+			location.reload();
         }
     });
 }

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,25 +41,22 @@ public class MyPageController {
 	private FollowsService followsService;
 
 	@Autowired
-	private LikesService likesService;
-
-	@Autowired
 	private ReviewService reviewService;
 
 	@Autowired
 	private MessageService messageService;
 
 	@GetMapping
-	public String viewMyPage(Model model, Principal principal) {
+	public String viewMyPage(Model model, @AuthenticationPrincipal User user) {
 		
-		Member member = memberService.getMember(principal.getName()).get();
+		Member member = memberService.getMember(user.getUsername()).get();
 		String memId = member.getMemId();
 
 		// 필요한 데이터 조회
 		List<Recipe> myRecipes = recipeService.getMyRecipes(memId);
 		List<Member> followings = followsService.getMyFollowings(memId);
 		List<Member> followers = followsService.getMyFollowers(memId);
-		List<Recipe> likedRecipes = likesService.getLikedRecipes(memId);
+		List<Recipe> likedRecipes = recipeService.getLikedRecipes(memId);
 		List<Review> myReviews = reviewService.getMyReviews(memId);
 		List<Message> messages = messageService.getMessages(memId);
 

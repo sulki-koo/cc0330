@@ -53,7 +53,6 @@ public class MessageService {
 		messageRepository.save(message);
 	}
 
-
 	// 공통 메시지 전송 메소드
 	public void likeMessage(String sendToMemid, String nickname, String type) {
 		String message = "";
@@ -62,12 +61,12 @@ public class MessageService {
 		} else if ("review".equals(type)) {
 			message = String.format("%s님이 회원님의 리뷰를 좋아합니다.", nickname);
 		}
-		PubSubServer.sendMessageToMemId(sendToMemid, message);
+		PubSubServer.sendMessageToSession(sendToMemid, message);
 	}
 	
 	public void followMessage(String sendToMemid, String nickname) {
 		String message = String.format("%s님이 회원님을 팔로우했습니다.", nickname);
-        PubSubServer.sendMessageToMemId(sendToMemid, message);
+        PubSubServer.sendMessageToSession(sendToMemid, message);
 	}
 	
 	
@@ -80,7 +79,7 @@ public class MessageService {
                 .collect(Collectors.toList());
         for (Follows follow : followers) {
             String message = String.format("%s님이 새 레시피를 작성했습니다.", recipe.getMemId());
-            PubSubServer.sendMessageToMemId(follow.getFollowerId(), message);
+            PubSubServer.sendMessageToSession(follow.getFollowerId(), message);
         }
     }
 	

@@ -1,12 +1,16 @@
 package cookcloud.pubsub;
 
+import org.springframework.context.annotation.Configuration;
+
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.websocket.server.ServerContainer;
 import jakarta.websocket.server.ServerEndpointConfig;
 
+@Configuration
 public class WebSocketInitializer implements ServletContextListener {
+	
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		ServletContext servletContext = sce.getServletContext();

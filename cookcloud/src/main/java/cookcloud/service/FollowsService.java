@@ -18,6 +18,10 @@ public class FollowsService {
 
 	@Autowired
 	private FollowsRepository followsRepository;
+	
+	public Optional<Follows> isFollowing(String followingId, String followerId) {
+		return followsRepository.findByFollowingIdAndFollowerId(followingId, followerId);
+	}
 
 	// 내가 구독한(팔로잉) 사용자 목록 조회
 	public List<Member> getMyFollowings(String memId) {

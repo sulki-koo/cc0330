@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Client</title>
+    <script>
+        var socket = new WebSocket("ws://localhost:8080/pubsub");
+
+        socket.onopen = function(event) {
+            console.log("WebSocket 연결 성공!");
+        };
+
+        socket.onerror = function(error) {
+            console.error("WebSocket 연결 실패:", error);
+        };
+
+        socket.onmessage = function(event) {
+            console.log("서버 메시지:", event.data);
+        };
+
+        function sendMessage() {
+            var message = "Hello from client";
+            socket.send(message);  // 서버로 메시지 전송
+        }
+    </script>
+</head>
+<body>
+    <h1>WebSocket 클라이언트</h1>
+    <button onclick="sendMessage()">메시지 보내기</button>
+</body>
+</html>

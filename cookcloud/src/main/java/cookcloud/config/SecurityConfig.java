@@ -19,7 +19,7 @@ public class SecurityConfig {
     	
     	http
         .authorizeHttpRequests(auth -> auth
-	        .requestMatchers("/css/**", "/js/**", "/", "/img/**", "/signup/**", "/member/**", "/login", "/recipes", "/recipes/recipe/**", "/recipes/search/**", "/recommendation").permitAll()
+	        .requestMatchers("/css/**", "/js/**", "/", "/img/**", "/signup/**", "/member/**", "/login", "/recipes", "/recipes/recipe/**", "/recipes/search/**", "/recommendation", "/pubsub").permitAll()
             .anyRequest().authenticated()
         	)
         	.formLogin(form -> form
